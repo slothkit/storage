@@ -1,3 +1,1 @@
-import * as storage from './localStorage'
-
-export default 1
+export { init, get, set, remove, clear, flush } from './localStorage'
