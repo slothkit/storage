@@ -1,20 +1,8 @@
-
-
-## [0.0.2](https://github.com/slothkit/storage/compare/v0.0.1...v0.0.2) (2024-08-15)
-
-
-### Bug Fixes
-
-* fix export ([d390b01](https://github.com/slothkit/storage/commit/d390b0107636a7750bb1ec2c70514918f025f5b7))
-
-
-
-## [0.0.1](https://github.com/slothkit/storage/compare/35c2de1f349726bdad50eb434bac5dd1676208a7...v0.0.1) (2024-08-15)
+# [1.0.0](https://github.com/slothkit/storage/compare/v0.0.3...v1.0.0) (2024-08-15)
 
 
 ### Features
 
-* first version ([35c2de1](https://github.com/slothkit/storage/commit/35c2de1f349726bdad50eb434bac5dd1676208a7))
-
-
+* export 'storage' ([9fbf9f2](https://github.com/slothkit/storage/commit/9fbf9f2a78ada40d4421c1f1c7db3a0de2b08e99))
+* first version ([a31acb1](https://github.com/slothkit/storage/commit/a31acb18a156691cb4bbfc5dd9b3375f976d79aa))
 
