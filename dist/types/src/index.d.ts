@@ -1,2 +1,1 @@
-declare const _default: 1;
-export default _default;
+export { init, get, set, remove, clear, flush } from './localStorage';
