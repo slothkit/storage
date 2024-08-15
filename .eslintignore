@@ -2,5 +2,4 @@
 **/*.js
 **/*.cjs
 **/__tests__
-**/*.ts
-!src/**/*.ts
+node_modules

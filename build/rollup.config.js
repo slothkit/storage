@@ -1,67 +1,43 @@
-import { createRequire } from 'node:module'
-import path from 'node:path'
+import { resolve as _resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import fs from 'fs-extra'
-import chalk from 'chalk'
 import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
 import nodeResolve from '@rollup/plugin-node-resolve'
 import replace from '@rollup/plugin-replace'
 import typescript from '@rollup/plugin-typescript'
-import paths from './paths.js'
+import { babel } from '@rollup/plugin-babel'
+import terser from '@rollup/plugin-terser'
+import babelConfig from '../babel.config.js'
+const { readJsonSync } = fs
 
-const require = createRequire(import.meta.url)
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
-const resolve = (relativePath) => path.resolve(__dirname, '..', relativePath)
+const resolve = (p) => _resolve(__dirname, '..', p)
 
-const { packageDir, distDir } = paths
-const pkg = fs.readJsonSync(paths.packageJson)
+const extensions = ['.js', '.jsx', '.ts', '.tsx']
 
-const extensions = ['.js', 'jsx', '.ts', '.tsx', '.json']
+const pkgJson = readJsonSync(resolve('package.json'))
+const { version } = pkgJson
 
-const outputConfigs = {
-  cjs: {
-    file: path.resolve(`${packageDir}/${pkg.main}`),
-    format: 'cjs',
-  },
-  esm: {
-    file: path.resolve(`${packageDir}/${pkg.module}`),
+const outputs = [
+  {
+    file: resolve(pkgJson.module),
     format: 'esm',
+    sourcemap: false,
   },
-  global: {
-    file: path.resolve(`${distDir}/storage.min.js`),
+  {
     format: 'iife',
     name: 'Storage',
+    file: resolve('dist/storage.min.js'),      
   }
-}
+]
 
-export function createConfig(format, output, plugins = []) {
-  if (!output) {
-    console.log(chalk.yellow('invalid output: no output'))
-    process.exit(1)
+function createConfig(output) {
+  let isCompress = false
+  if (output.format === 'iife') {
+    isCompress = true
   }
-
-  let external = []
-  const isGlobalBuild = /global/.test(format)
-  let useCompress = false
-  let useSourceMap = true
-  let useBabel = false
-  if (isGlobalBuild) {
-    useCompress = true
-    useSourceMap = false
-    useBabel = true
-  } else {
-    external = [
-      ...Object.keys(pkg.peerDependencies || {})
-    ]
-  }
-
-  output.sourcemap = useSourceMap
-
-  /**
-   * @type {import('rollup').RollupOptions}
-   */
-  const config = {
+  return {
     input: resolve('src/index.ts'),
     output,
     plugins: [
@@ -69,22 +45,32 @@ export function createConfig(format, output, plugins = []) {
       nodeResolve({ browser: true }),
       json({ namedExports: false }),
       typescript({
-        tsconfig: paths.tsconfig,
-        declaration: !!isGlobalBuild,
-        declarationDir: path.resolve(`${packageDir}/types`),
+        tsconfig: resolve('tsconfig.json'),
+        compilerOptions: {
+          declaration: true,
+          declarationDir: 'types',
+          sourceMap: false,
+        },
       }),
       replace({
         preventAssignment: true,
         exclude: 'node_modules/**',
-        __VERSION__: JSON.stringify(pkg.version),
+        __VERSION__: JSON.stringify(version),
       }),
-      ...plugins,
-    ],
+      isCompress && babel({
+        extensions,
+        babelHelpers: 'bundled',
+        ...babelConfig,
+      }),
+      isCompress && terser({
+        format: {
+          comments: false,
+        },
+      }),
+    ]
   }
-  return config
 }
 
-const formats = ['cjs', 'esm', 'global']
-const configs = formats.map((format) => createConfig(format, outputConfigs[format]))
+const config = outputs.map(createConfig)
 
-export default configs
+export default config
