@@ -9,6 +9,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/slothkit/storage.git"
+  },
+  "homepage": "https://github.com/slothkit/storage",
   "scripts": {
     "commit": "git add . && cz",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",

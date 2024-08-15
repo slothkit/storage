@@ -1,3 +1,7 @@
+![NPM Version](https://img.shields.io/npm/v/%40slothkit%2Fstorage)
+![GitHub last commit](https://img.shields.io/github/last-commit/slothkit/storage)
+![NPM Downloads](https://img.shields.io/npm/d18m/%40slothkit%2Fstorage)
+
 # Storage Manager
 
 The Storage Manager is a utility library that extends the functionality of the browser's `localStorage`, adding support for expiration management, data encryption, and data compression.

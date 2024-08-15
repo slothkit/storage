@@ -1,3 +1,7 @@
+![NPM Version](https://img.shields.io/npm/v/%40slothkit%2Fstorage)
+![GitHub last commit](https://img.shields.io/github/last-commit/slothkit/storage)
+![NPM Downloads](https://img.shields.io/npm/d18m/%40slothkit%2Fstorage)
+
 # Storage 管理器
 
 Storage 管理器是一个扩展浏览器 `localStorage` 功能的实用库，增加了对过期时间、数据加密和数据压缩的支持。
