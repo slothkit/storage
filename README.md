@@ -42,6 +42,13 @@ init({
 })
 ```
 
+You can alse import by this way:
+
+```javascript
+import { storage } from '@slothkit/storage'
+storage.init({/** your config */})
+```
+
 ### Saving Data
 
 You can save data in `localStorage` with optional configuration for encryption, compression, and expiration time.
