@@ -576,13 +576,13 @@ class Encryptor {
     }
 }
 
-const init = (config = {}) => {
+const init$1 = (config = {}) => {
     ConfigManager.setInstance(config);
     if (config.encryptor) {
         Encryptor.setInstance(config.encryptor.encrypt, config.encryptor.decrypt);
     }
 };
-const set = (key, value, config = {}) => {
+const set$1 = (key, value, config = {}) => {
     const globalConfig = ConfigManager.getInstance().config;
     const item = { v: value };
     // The final stored value
@@ -628,7 +628,7 @@ const set = (key, value, config = {}) => {
         console.error('Failed to set item: ', err);
     }
 };
-const get = (key) => {
+const get$1 = (key) => {
     const itemStr = localStorage.getItem(key);
     if (!itemStr) {
         return null;
@@ -659,7 +659,7 @@ const get = (key) => {
         return null;
     }
 };
-function remove(key) {
+function remove$1(key) {
     localStorage.removeItem(key);
 }
 /**
@@ -667,7 +667,7 @@ function remove(key) {
  * Only items with expiration time will be flushed.
  * @param force If force is true, all items with expiration time will be flushed, no matter whether they are expired or not
  */
-function flush(force = false) {
+function flush$1(force = false) {
     let toRemove = [];
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
@@ -693,7 +693,7 @@ function flush(force = false) {
         localStorage.removeItem(key);
     });
 }
-function clear() {
+function clear$1() {
     localStorage.clear();
 }
 function removePrefix(value) {
@@ -703,4 +703,24 @@ function getPrefix(value) {
     return value.replace(removePrefix(value), '');
 }
 
-export { clear, flush, get, init, remove, set };
+var ls = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  clear: clear$1,
+  flush: flush$1,
+  get: get$1,
+  init: init$1,
+  remove: remove$1,
+  set: set$1
+});
+
+const { init, get, set, remove, clear, flush } = ls;
+const storage = {
+    init,
+    get,
+    set,
+    remove,
+    clear,
+    flush,
+};
+
+export { clear, ls as default, flush, get, init, remove, set, storage };
