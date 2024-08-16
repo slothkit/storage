@@ -22,7 +22,7 @@ export interface StorageItem {
 }
 export interface StorageConfig {
     /**
-     * Remaining time (milliseconds)
+     * Remaining time (seconds)
      */
     ttl?: number;
     /**

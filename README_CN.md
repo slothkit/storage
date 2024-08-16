@@ -50,10 +50,10 @@ init({
 import { set } from '@slothkit/storage'
 
 // 1小时后过期，并加密，压缩数据
-set('myKey', 'myValue', { encrypt: true, compress: true, ttl: 3600000 })
+set('myKey', 'myValue', { encrypt: true, compress: true, ttl: 3600 })
 
-// 1000ms后过期
-set('myKey2', 'myValue2', { expires: Date.now() + 1000 })
+// 1s后过期
+set('myKey2', 'myValue2', { expires: Date.now() + 1 })
 ```
 
 ### 获取数据
@@ -121,7 +121,7 @@ clear()
 - `config`：配置对象。
   - `encrypt`：布尔值，指示是否加密项目。
   - `compress`：布尔值，指示是否压缩项目。
-  - `ttl`：存活时间，以毫秒为单位。
+  - `ttl`：存活时间，以秒为单位。
   - `expires`：过期时间戳。
 
 ### `get<T = any>(key: string): T | null`

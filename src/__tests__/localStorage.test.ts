@@ -67,7 +67,7 @@ describe('Storage Module', () => {
     it('should handle item expiration (use ttl)', () => {
       const key = 'testKey'
       const value = 'testValue'
-      const ttl = 1000
+      const ttl = 60
 
       set(key, value, { ttl })
 
@@ -76,7 +76,7 @@ describe('Storage Module', () => {
 
       // Simulate expiration
       const originalDateNow = Date.now
-      jest.spyOn(Date, 'now').mockImplementation(() => originalDateNow() + ttl + 1)
+      jest.spyOn(Date, 'now').mockImplementation(() => originalDateNow() + 60000 + 1)
       const resultAfterExpiry = get<string>(key)
       expect(resultAfterExpiry).toBeNull()
     })

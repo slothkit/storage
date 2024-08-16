@@ -23,7 +23,7 @@ export const set = <T = any>(key: string, value: T, config: StorageConfig = {}) 
   let prefix = ''
 
   if (config.ttl) {
-    item.exp = Date.now() + config.ttl
+    item.exp = Date.now() + config.ttl * 1000
     prefix += 'exp:'
   } else if (config.expires) {
     item.exp = config.expires

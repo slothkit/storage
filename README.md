@@ -57,10 +57,10 @@ You can save data in `localStorage` with optional configuration for encryption, 
 import { set } from '@slothkit/storage'
 
 // Expires in 1 hour, and encrypts, compresses the data
-set('myKey', 'myValue', { encrypt: true, compress: true, ttl: 3600000 })
+set('myKey', 'myValue', { encrypt: true, compress: true, ttl: 3600 })
 
-// Expires in 1000ms
-set('myKey2', 'myValue2', { expires: Date.now() + 1000 })
+// Expires in 1s
+set('myKey2', 'myValue2', { expires: Date.now() + 1 })
 ```
 
 ### Retrieving Data
@@ -128,7 +128,7 @@ Save data in `localStorage`.
 - `config`: Configuration object.
   - `encrypt`: Boolean indicating whether to encrypt the item.
   - `compress`: Boolean indicating whether to compress the item.
-  - `ttl`: Time to live in milliseconds.
+  - `ttl`: Time to live in seconds.
   - `expires`: Expiration timestamp.
 
 ### `get<T = any>(key: string): T | null`

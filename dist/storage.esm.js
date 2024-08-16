@@ -594,7 +594,7 @@ const set$1 = (key, value, config = {}) => {
     // if value has been encrypted and compressed, the prefix will contain 'e:c:'
     let prefix = '';
     if (config.ttl) {
-        item.exp = Date.now() + config.ttl;
+        item.exp = Date.now() + config.ttl * 1000;
         prefix += 'exp:';
     }
     else if (config.expires) {
