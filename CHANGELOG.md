@@ -1,3 +1,12 @@
+## [1.0.1](https://github.com/slothkit/storage/compare/v1.0.0...v1.0.1) (2024-08-16)
+
+
+### Bug Fixes
+
+* export 'storage' ([714b499](https://github.com/slothkit/storage/commit/714b499732a7662d6ec55fbfe037bbcd26d24d98))
+
+
+
 # [1.0.0](https://github.com/slothkit/storage/compare/v0.0.3...v1.0.0) (2024-08-15)
 
 
