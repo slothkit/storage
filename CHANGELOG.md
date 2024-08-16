@@ -1,3 +1,18 @@
+# [1.1.0](https://github.com/slothkit/storage/compare/v1.0.1...v1.1.0) (2024-08-16)
+
+
+### Features
+
+* update TTL parameter to use seconds for calculation ([5ed3305](https://github.com/slothkit/storage/commit/5ed3305977a888d0721ecb6a65fe9d8434246263))
+
+
+### BREAKING CHANGES
+
+* The Time to Live (TTL) parameter has been updated to use seconds as the unit of
+measurement for calculation purposes
+
+
+
 ## [1.0.1](https://github.com/slothkit/storage/compare/v1.0.0...v1.0.1) (2024-08-16)
 
 
