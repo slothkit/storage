@@ -1,3 +1,12 @@
+## [1.2.1](https://github.com/slothkit/storage/compare/v1.2.0...v1.2.1) (2024-08-29)
+
+
+### Bug Fixes
+
+* fix build ([fb29f5c](https://github.com/slothkit/storage/commit/fb29f5cfe645a8b2d26350e721cd9603f860f713))
+
+
+
 # [1.2.0](https://github.com/slothkit/storage/compare/v1.1.0...v1.2.0) (2024-08-29)
 
 
