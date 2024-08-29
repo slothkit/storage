@@ -633,32 +633,21 @@ const get$1 = (key) => {
     if (!itemStr) {
         return null;
     }
-    let oriItemStr = removePrefix(itemStr);
-    const prefix = getPrefix(itemStr);
-    let item;
-    try {
-        if (prefix.includes('c:')) {
-            oriItemStr = lzStringExports.decompressFromUTF16(oriItemStr);
-        }
-        if (prefix.includes('e:')) {
-            const encryptor = Encryptor.getInstance();
-            const decryptedItemStr = encryptor.decrypt(oriItemStr);
-            item = JSON.parse(decryptedItemStr);
-        }
-        else {
-            item = JSON.parse(oriItemStr);
-        }
-        if (item.exp && Date.now() > item.exp) {
-            localStorage.removeItem(key);
-            return null;
-        }
-        return item.v;
-    }
-    catch (err) {
-        console.error('Failed to get item: ', err);
+    let item = getStorageItem(key);
+    if (item === null)
+        return null;
+    if (item.exp && Date.now() > item.exp) {
+        localStorage.removeItem(key);
         return null;
     }
+    return item.v;
 };
+function getExp(key) {
+    const item = getStorageItem(key);
+    if (item === null)
+        return null;
+    return item.exp;
+}
 function remove$1(key) {
     localStorage.removeItem(key);
 }
@@ -702,12 +691,40 @@ function removePrefix(value) {
 function getPrefix(value) {
     return value.replace(removePrefix(value), '');
 }
+function getStorageItem(key) {
+    const itemStr = localStorage.getItem(key);
+    if (!itemStr) {
+        return null;
+    }
+    let oriItemStr = removePrefix(itemStr);
+    const prefix = getPrefix(itemStr);
+    let item;
+    try {
+        if (prefix.includes('c:')) {
+            oriItemStr = lzStringExports.decompressFromUTF16(oriItemStr);
+        }
+        if (prefix.includes('e:')) {
+            const encryptor = Encryptor.getInstance();
+            const decryptedItemStr = encryptor.decrypt(oriItemStr);
+            item = JSON.parse(decryptedItemStr);
+        }
+        else {
+            item = JSON.parse(oriItemStr);
+        }
+        return item;
+    }
+    catch (err) {
+        console.error('Failed to get item: ', err);
+        return null;
+    }
+}
 
 var ls = /*#__PURE__*/Object.freeze({
   __proto__: null,
   clear: clear$1,
   flush: flush$1,
   get: get$1,
+  getExp: getExp,
   init: init$1,
   remove: remove$1,
   set: set$1

@@ -2,6 +2,7 @@ import type { GlobalConfig, StorageConfig } from './type';
 export declare const init: (config?: GlobalConfig) => void;
 export declare const set: <T = any>(key: string, value: T, config?: StorageConfig) => void;
 export declare const get: <T = any>(key: string) => T | null;
+export declare function getExp(key: string): number | void | null;
 export declare function remove(key: string): void;
 /**
  * Flush all the expired items.
