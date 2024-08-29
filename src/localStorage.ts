@@ -63,33 +63,19 @@ export const get = <T = any>(key: string): T | null => {
     return null
   }
 
-  let oriItemStr = removePrefix(itemStr)
-  const prefix = getPrefix(itemStr)
-
-  let item: StorageItem
-
-  try {
-    if (prefix.includes('c:')) {
-      oriItemStr = decompressFromUTF16(oriItemStr)
-    }
-    if (prefix.includes('e:')) {
-      const encryptor = Encryptor.getInstance()
-      const decryptedItemStr = encryptor.decrypt(oriItemStr)
-      item = JSON.parse(decryptedItemStr)
-    } else {
-      item = JSON.parse(oriItemStr)
-    }
-
-    if (item.exp && Date.now() > item.exp) {
-      localStorage.removeItem(key)
-      return null
-    }
-
-    return item.v as T
-  } catch (err) {
-    console.error('Failed to get item: ', err)
+  let item = getStorageItem(key)
+  if (item === null) return null
+  if (item.exp && Date.now() > item.exp) {
+    localStorage.removeItem(key)
     return null
   }
+  return item.v as T
+}
+
+export function getExp(key: string): number | void | null {
+  const item = getStorageItem(key)
+  if (item === null) return null
+  return item.exp
 }
 
 export function remove(key: string) {
@@ -111,7 +97,7 @@ export function flush(force: boolean = false) {
         let prefix = getPrefix(value)
         if (prefix.includes('exp:')) {
           try {
-            const item = JSON.parse(removePrefix(value))
+            const item = JSON.parse(removePrefix(value)) as StorageItem
             if (force || (item.exp && Date.now() > item.exp)) {
               toRemove.push(key)
             }
@@ -137,4 +123,33 @@ function removePrefix(value: string) {
 
 function getPrefix(value: string) {
   return value.replace(removePrefix(value), '')
+}
+
+function getStorageItem(key: string) {
+  const itemStr = localStorage.getItem(key)
+  if (!itemStr) {
+    return null
+  }
+
+  let oriItemStr = removePrefix(itemStr)
+  const prefix = getPrefix(itemStr)
+
+  let item: StorageItem
+
+  try {
+    if (prefix.includes('c:')) {
+      oriItemStr = decompressFromUTF16(oriItemStr)
+    }
+    if (prefix.includes('e:')) {
+      const encryptor = Encryptor.getInstance()
+      const decryptedItemStr = encryptor.decrypt(oriItemStr)
+      item = JSON.parse(decryptedItemStr)
+    } else {
+      item = JSON.parse(oriItemStr)
+    }
+    return item
+  } catch (err) {
+    console.error('Failed to get item: ', err)
+    return null
+  }
 }

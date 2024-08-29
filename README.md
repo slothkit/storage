@@ -153,6 +153,11 @@ Remove expired items from `localStorage`.
 
 Clear all items from `localStorage`.
 
+### `getExp(key: string): number | void | null`
+Get the expiration timestamp of an item.
+
+- `key`: The key for the item.
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

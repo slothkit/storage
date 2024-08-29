@@ -146,6 +146,9 @@ clear()
 
 清除 `localStorage` 中的所有项目。
 
+### `getExp(key: string): number | void | null`
+获取项目的过期时间戳。
+
 ## 许可证
 
 本项目采用 MIT 许可证。详见 [LICENSE](LICENSE) 文件。

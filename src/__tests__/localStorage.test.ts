@@ -1,4 +1,4 @@
-import { init, set, get, remove, flush, clear } from '../localStorage'
+import { init, set, get, getExp, remove, flush, clear } from '../localStorage'
 import { ConfigManager } from '../config'
 import { Encryptor } from '../encryptor'
 import type { GlobalConfig } from '../type'
@@ -46,6 +46,7 @@ describe('Storage Module', () => {
       const result = get<string>(key)
 
       expect(result).toBe(value)
+      expect(getExp(key)).toBe(undefined)
     })
 
     it('should set and get an item with encryption and compression', () => {
@@ -86,7 +87,11 @@ describe('Storage Module', () => {
       const value = 'testValue'
       const expires = Date.now() + 1000
 
+      expect(getExp(key)).toBeNull()
+
       set(key, value, { expires })
+
+      expect(getExp(key)).toBe(expires)
 
       const resultBeforeExpiry = get<string>(key)
       expect(resultBeforeExpiry).toBe(value)
