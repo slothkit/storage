@@ -1,3 +1,12 @@
+# [2.1.0](https://github.com/slothkit/storage/compare/v2.0.0...v2.1.0) (2025-01-23)
+
+
+### Features
+
+* add version control ([97d4f1a](https://github.com/slothkit/storage/commit/97d4f1a50cab494c04c501182c4f8fc5254d353a))
+
+
+
 # [2.0.0](https://github.com/slothkit/storage/compare/v1.2.1...v2.0.0) (2025-01-23)
 
 
