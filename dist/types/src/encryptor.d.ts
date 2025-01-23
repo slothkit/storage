@@ -1,10 +1,13 @@
+type EncryptFn = (...args: any[]) => string;
+type DecryptFn = (encryptedValue: string) => any;
 export declare class Encryptor {
     private static instance;
     private encryptFn;
     private decryptFn;
-    constructor(encryptFn: (value: any) => string, decryptFn: (encryptedValue: string) => any);
+    constructor(encryptFn: EncryptFn, decryptFn: DecryptFn);
     static getInstance(): Encryptor;
-    static setInstance(encryptFn: (value: any) => string, decryptFn: (encryptedValue: string) => any): void;
-    encrypt(value: any): string;
+    static setInstance(encryptFn: EncryptFn, decryptFn: DecryptFn): void;
+    encrypt(...args: any[]): string;
     decrypt(encryptedValue: string): any;
 }
+export {};

@@ -1,3 +1,18 @@
+# [2.0.0](https://github.com/slothkit/storage/compare/v1.2.1...v2.0.0) (2025-01-23)
+
+
+### Features
+
+* change encryption encoding to base64url ([6d7afbb](https://github.com/slothkit/storage/commit/6d7afbb3551a7c5f60e07988ad5100b29e7630d3))
+
+
+### BREAKING CHANGES
+
+* The encryption encoding has been changed to base64url. This change improves the
+compatibility of the encrypted data for transmission and storage. All previously stored encrypted
+
+
+
 ## [1.2.1](https://github.com/slothkit/storage/compare/v1.2.0...v1.2.1) (2024-08-29)
 
 

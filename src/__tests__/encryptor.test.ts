@@ -1,6 +1,16 @@
 import { Encryptor } from '../encryptor'
 
 describe('Encryptor', () => {
+  let consoleWarnSpy: jest.SpyInstance;
+
+  beforeAll(() => {
+    consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+
+  afterAll(() => {
+    consoleWarnSpy.mockRestore();
+  });
+
   describe('getInstance', () => {
     it('should return the same instance', () => {
       const instance1 = Encryptor.getInstance()
@@ -31,5 +41,17 @@ describe('Encryptor', () => {
       expect(decryptedValue).toBeDefined()
       expect(decryptedValue).toBe(value)
     })
+  })
+
+  describe('decrypt', () => {
+    it('should return an empty string if the value is not encrypted', () => {
+        const encryptor = Encryptor.getInstance()
+        const value = undefined
+        const decryptedValue = encryptor.decrypt(value as any)
+
+        expect(decryptedValue).toBeDefined()
+        expect(decryptedValue).toBe('')
+      }
+    )
   })
 })
