@@ -108,6 +108,18 @@ import { clear } from '@slothkit/storage'
 clear()
 ```
 
+### Version Control
+
+You can set the version of the storage, and the storage manager will automatically clear all items if the version changes.
+
+```javascript
+import { init } from '@slothkit/storage'
+
+init({
+  version: 1
+})
+```
+
 ## API
 
 ### `init(config: GlobalConfig = {})`
@@ -118,6 +130,7 @@ Initialize the Storage Manager with global configuration.
   - `encryptor`: Object containing `encrypt` and `decrypt` functions.
   - `encrypt`: Boolean indicating whether to enable encryption by default.
   - `compress`: Boolean indicating whether to enable compression by default.
+  - `version`: Storage version number.
 
 ### `set<T = any>(key: string, value: T, config: StorageConfig = {})`
 

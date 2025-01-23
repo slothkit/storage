@@ -8,6 +8,14 @@ export const init = (config: GlobalConfig = {}) => {
   if (config.encryptor) {
     Encryptor.setInstance(config.encryptor.encrypt, config.encryptor.decrypt)
   }
+
+  if (config.version !== undefined) {
+    let cachedVersion = localStorage.getItem('_storage:version')
+    if (cachedVersion !== String(config.version)) {
+      clear()
+      localStorage.setItem('_storage:version', String(config.version))
+    }
+  }
 }
 
 export const set = <T = any>(key: string, value: T, config: StorageConfig = {}) => {

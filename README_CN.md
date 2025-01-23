@@ -101,6 +101,18 @@ import { clear } from '@slothkit/storage'
 clear()
 ```
 
+### 版本控制
+
+您可以设置存储的版本，如果版本发生变化，存储管理器将自动清除所有缓存。
+
+```javascript
+import { init } from '@slothkit/storage'
+
+init({
+  version: 1
+})
+```
+
 ## API
 
 ### `init(config: GlobalConfig = {})`
@@ -111,6 +123,7 @@ clear()
   - `encryptor`：包含 `encrypt` 和 `decrypt` 函数的对象。
   - `encrypt`：布尔值，指示是否默认启用加密。
   - `compress`：布尔值，指示是否默认启用压缩。
+  - `version`：存储的版本号。
 
 ### `set<T = any>(key: string, value: T, config: StorageConfig = {})`
 

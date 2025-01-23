@@ -662,6 +662,13 @@ const init$1 = (config = {}) => {
     if (config.encryptor) {
         Encryptor.setInstance(config.encryptor.encrypt, config.encryptor.decrypt);
     }
+    if (config.version !== undefined) {
+        let cachedVersion = localStorage.getItem('_storage:version');
+        if (cachedVersion !== String(config.version)) {
+            clear$1();
+            localStorage.setItem('_storage:version', String(config.version));
+        }
+    }
 };
 const set$1 = (key, value, config = {}) => {
     const globalConfig = ConfigManager.getInstance().config;

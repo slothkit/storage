@@ -15,6 +15,11 @@ export interface GlobalConfig {
    * Whether to compress the value, if set to true, all values will be compressed before storing
    */
   compress?: boolean
+  /**
+   * Version of storage.
+   * If set, it will be used to remove cached items that do not match this version.
+   */
+  version?: number
 }
 
 export interface StorageItem {

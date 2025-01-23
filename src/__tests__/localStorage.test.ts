@@ -35,6 +35,15 @@ describe('Storage Module', () => {
       encryptorInstance.decrypt(someData)
       expect(mockDecrypt).toHaveBeenCalledWith(someData)
     })
+
+    it('should initialize with version', () => {
+      const config: GlobalConfig = { version: 1 }
+
+      init(config)
+
+      expect(ConfigManager.getInstance().config).toEqual(config)
+      expect(localStorage.getItem('_storage:version')).toBe(String(config.version))
+    })
   })
 
   describe('set and get', () => {
@@ -120,6 +129,21 @@ describe('Storage Module', () => {
 
       expect(jsonParseSpy).toHaveBeenCalled()
       expect(console.error).toHaveBeenCalledWith('Failed to get item: ', expect.any(Error))
+    })
+
+    it('should remove items with different version', () => {
+      const key = 'testKey'
+      const value = 'testValue'
+      const config: GlobalConfig = { version: 1 }
+
+      init(config)
+      set(key, value)
+
+      const newConfig: GlobalConfig = { version: 2 }
+      init(newConfig)
+
+      const result = get<string>(key)
+      expect(result).toBeNull()
     })
   })
 
