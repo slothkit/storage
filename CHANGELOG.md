@@ -1,3 +1,7 @@
+# [2.2.0](https://github.com/slothkit/storage/compare/v2.1.0...v2.2.0) (2025-04-09)
+
+
+
 # [2.1.0](https://github.com/slothkit/storage/compare/v2.0.0...v2.1.0) (2025-01-23)
 
 
