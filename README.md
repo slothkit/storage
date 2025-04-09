@@ -6,6 +6,8 @@
 
 The Storage Manager is a utility library that extends the functionality of the browser's `localStorage`, adding support for expiration management, data encryption, and data compression.
 
+[English](README.md) | [中文](README_CN.md)
+
 ## Features
 
 - **Expiration Management**: Automatically manage the expiration time of stored data.

@@ -6,6 +6,8 @@
 
 Storage 管理器是一个扩展浏览器 `localStorage` 功能的实用库，增加了对过期时间、数据加密和数据压缩的支持。
 
+[English](README.md) | [中文](README_CN.md)
+
 ## 功能
 
 - **过期管理**：自动管理存储数据的过期时间。

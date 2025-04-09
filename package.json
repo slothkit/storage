@@ -6,6 +6,9 @@
   "main": "dist/storage.esm.js",
   "module": "dist/storage.esm.js",
   "types": "dist/types/src/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "public"
   },

@@ -18,6 +18,7 @@ const extensions = ['.js', '.jsx', '.ts', '.tsx']
 
 const pkgJson = readJsonSync(resolve('package.json'))
 const { version } = pkgJson
+const DIST_DIR = 'dist' 
 
 const outputs = [
   {
@@ -28,7 +29,7 @@ const outputs = [
   {
     format: 'iife',
     name: 'Storage',
-    file: resolve('dist/storage.min.js'),      
+    file: resolve(`${DIST_DIR}/storage.min.js`),      
   }
 ]
 
@@ -48,7 +49,7 @@ function createConfig(output) {
         tsconfig: resolve('tsconfig.json'),
         compilerOptions: {
           declaration: true,
-          declarationDir: 'types',
+          declarationDir: `${DIST_DIR}/types`,
           sourceMap: false,
         },
       }),
