@@ -1,3 +1,12 @@
+## [2.2.1](https://github.com/slothkit/storage/compare/v2.2.0...v2.2.1) (2025-04-21)
+
+
+### Bug Fixes
+
+* **flush:** handle encrypted data in flush operations ([7b5e561](https://github.com/slothkit/storage/commit/7b5e5619e0cf121a844578066ef0ada75664085b))
+
+
+
 # [2.2.0](https://github.com/slothkit/storage/compare/v2.1.0...v2.2.0) (2025-04-09)
 
 
