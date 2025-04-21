@@ -9,5 +9,5 @@ export declare function remove(key: string): void;
  * Only items with expiration time will be flushed.
  * @param force If force is true, all items with expiration time will be flushed, no matter whether they are expired or not
  */
-export declare function flush(force?: boolean): void;
+export declare function flush(force?: boolean): boolean;
 export declare function clear(): void;
