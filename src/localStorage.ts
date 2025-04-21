@@ -101,17 +101,10 @@ export function flush(force: boolean = false) {
     const key = localStorage.key(i)
     if (key) {
       const value = localStorage.getItem(key)
-      if (value) {
-        let prefix = getPrefix(value)
-        if (prefix.includes('exp:')) {
-          try {
-            const item = JSON.parse(removePrefix(value)) as StorageItem
-            if (force || (item.exp && Date.now() > item.exp)) {
-              toRemove.push(key)
-            }
-          } catch (err) {
-            console.error('Failed to flush item: ', err)
-          }
+      if (value && getPrefix(value).includes('exp:')) {
+        const item = getStorageItem(key)
+        if (item && (force || (item.exp && Date.now() > item.exp))) {
+          toRemove.push(key)
         }
       }
     }
@@ -119,6 +112,7 @@ export function flush(force: boolean = false) {
   toRemove.forEach((key) => {
     localStorage.removeItem(key)
   })
+  return toRemove.length > 0
 }
 
 export function clear() {

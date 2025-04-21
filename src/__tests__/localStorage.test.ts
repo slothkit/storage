@@ -1,12 +1,14 @@
 import { init, set, get, getExp, remove, flush, clear } from '../localStorage'
 import { ConfigManager } from '../config'
 import { Encryptor } from '../encryptor'
+import { vigenereEncrypt, vigenereDecrypt } from '../lib/vigenere'
 import type { GlobalConfig } from '../type'
 
 describe('Storage Module', () => {
   beforeEach(() => {
     localStorage.clear()
     jest.spyOn(console, 'error').mockImplementation(() => {})
+    jest.spyOn(console, 'warn').mockImplementation(() => {})
   })
 
   afterEach(() => {
@@ -194,16 +196,20 @@ describe('Storage Module', () => {
       expect(get<string>(key2)).toBeNull()
     })
 
-    it('should handle error correctly', () => {
-      const jsonParseSpy = jest.spyOn(JSON, 'parse').mockImplementation(() => {
-        throw new Error('Failed to parse')
-      })
-      set('testKey', 'testValue', { ttl: 1000 })
-
-      flush(true)
-
-      expect(jsonParseSpy).toHaveBeenCalled()
-      expect(console.error).toHaveBeenCalledWith('Failed to flush item: ', expect.any(Error))
+    it('should flush encrypted items with expiration correctly', () => {
+      const mockEncrypt = jest.fn((str) => `encrypted(${str})`)
+      const mockDecrypt = jest.fn((str) => str.replace('encrypted(', '').replace(')', ''))
+      Encryptor.setInstance(mockEncrypt, mockDecrypt)
+      
+      const key = 'encryptedKey'
+      const value = 'secretValue'
+      
+      set(key, value, { encrypt: true, ttl: -1 }) // Already expired
+      
+      flush()
+      
+      expect(get<string>(key)).toBeNull()
+      expect(mockDecrypt).toHaveBeenCalled()
     })
   })
 
