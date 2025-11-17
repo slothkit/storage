@@ -1,3 +1,12 @@
+# [3.0.0](https://github.com/slothkit/storage/compare/v2.2.1...v3.0.0) (2025-11-17)
+
+
+### Features
+
+* add Next.js(SSR) support ([35def28](https://github.com/slothkit/storage/commit/35def28a5b00f0a93e59a9b4cf638fe60bcd7bb1))
+
+
+
 ## [2.2.1](https://github.com/slothkit/storage/compare/v2.2.0...v2.2.1) (2025-04-21)
 
 
