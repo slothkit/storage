@@ -122,6 +122,13 @@ init({
 })
 ```
 
+## Using with Next.js (SSR)
+
+- In the browser the library uses `window.localStorage` to persist data (this means data is scoped to the browser profile/origin and is typically considered the current user's local data).
+- On the server (for example Next.js SSR/Server-side environments) there is no `window`; the library uses a no-op fallback: it does not persist data and does not share data between server processes or requests. This ensures importing the library on the server does not throw and prevents accidentally sharing user data between requests.
+
+Short recommendation: For most Next.js use cases, keeping the default no-op server fallback is the safest option; delegate real persistence to browser localStorage (client-side) or a backend store with per-user isolation.
+
 ## API
 
 ### `init(config: GlobalConfig = {})`

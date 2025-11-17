@@ -657,16 +657,52 @@ class Encryptor {
     }
 }
 
+// Provide a storage wrapper that's safe to use in SSR (Next.js) where `window` is undefined.
+const isBrowser = typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+// For server-side (SSR) environments we intentionally provide a no-op storage
+// fallback instead of a process-shared memory store. Using a process-shared
+// Map can accidentally share per-user data between requests in the same
+// server process. A no-op fallback is safer: it avoids crashes on import and
+// ensures the library does not persist or share data on the server.
+const createNoopStorage = () => {
+    return {
+        getItem(_) {
+            return null;
+        },
+        setItem(_, __) {
+            /* no-op on server */
+        },
+        removeItem(_) {
+            /* no-op on server */
+        },
+        key(_) {
+            return null;
+        },
+        get length() {
+            return 0;
+        },
+        clear() {
+            /* no-op on server */
+        },
+    };
+};
+let storage$1;
+if (isBrowser) {
+    storage$1 = window.localStorage;
+}
+else {
+    storage$1 = createNoopStorage();
+}
 const init$1 = (config = {}) => {
     ConfigManager.setInstance(config);
     if (config.encryptor) {
         Encryptor.setInstance(config.encryptor.encrypt, config.encryptor.decrypt);
     }
     if (config.version !== undefined) {
-        let cachedVersion = localStorage.getItem('_storage:version');
+        let cachedVersion = storage$1.getItem('_storage:version');
         if (cachedVersion !== String(config.version)) {
             clear$1();
-            localStorage.setItem('_storage:version', String(config.version));
+            storage$1.setItem('_storage:version', String(config.version));
         }
     }
 };
@@ -710,14 +746,14 @@ const set$1 = (key, value, config = {}) => {
             v = lzStringExports.compressToUTF16(v);
             prefix += 'c:';
         }
-        localStorage.setItem(key, prefix + v);
+        storage$1.setItem(key, prefix + v);
     }
     catch (err) {
         console.error('Failed to set item: ', err);
     }
 };
 const get$1 = (key) => {
-    const itemStr = localStorage.getItem(key);
+    const itemStr = storage$1.getItem(key);
     if (!itemStr) {
         return null;
     }
@@ -725,7 +761,7 @@ const get$1 = (key) => {
     if (item === null)
         return null;
     if (item.exp && Date.now() > item.exp) {
-        localStorage.removeItem(key);
+        storage$1.removeItem(key);
         return null;
     }
     return item.v;
@@ -737,7 +773,7 @@ function getExp(key) {
     return item.exp;
 }
 function remove$1(key) {
-    localStorage.removeItem(key);
+    storage$1.removeItem(key);
 }
 /**
  * Flush all the expired items.
@@ -746,10 +782,10 @@ function remove$1(key) {
  */
 function flush$1(force = false) {
     let toRemove = [];
-    for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
+    for (let i = 0; i < storage$1.length; i++) {
+        const key = storage$1.key(i);
         if (key) {
-            const value = localStorage.getItem(key);
+            const value = storage$1.getItem(key);
             if (value && getPrefix(value).includes('exp:')) {
                 const item = getStorageItem(key);
                 if (item && (force || (item.exp && Date.now() > item.exp))) {
@@ -759,12 +795,12 @@ function flush$1(force = false) {
         }
     }
     toRemove.forEach((key) => {
-        localStorage.removeItem(key);
+        storage$1.removeItem(key);
     });
     return toRemove.length > 0;
 }
 function clear$1() {
-    localStorage.clear();
+    storage$1.clear();
 }
 function removePrefix(value) {
     return value.replace(/^(e:|c:|exp:)+/, '');
@@ -773,7 +809,7 @@ function getPrefix(value) {
     return value.replace(removePrefix(value), '');
 }
 function getStorageItem(key) {
-    const itemStr = localStorage.getItem(key);
+    const itemStr = storage$1.getItem(key);
     if (!itemStr) {
         return null;
     }
@@ -803,6 +839,7 @@ function getStorageItem(key) {
 var ls = /*#__PURE__*/Object.freeze({
   __proto__: null,
   clear: clear$1,
+  createNoopStorage: createNoopStorage,
   flush: flush$1,
   get: get$1,
   getExp: getExp,
