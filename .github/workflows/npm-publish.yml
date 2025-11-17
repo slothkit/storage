@@ -18,4 +18,9 @@ jobs:
         with:
           node-version: 18
           registry-url: https://registry.npmjs.org/
+      - name: Print npm version (diagnostic)
+        run: npm -v
+
+      - name: Ensure npm >= 11.5.1
+        run: npm install -g npm@latest
       - run: npm publish
